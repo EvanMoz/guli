@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>guli_service_edu</module>
+        <module>guli_service_oss</module>
     </modules>
 
     <dependencies>
