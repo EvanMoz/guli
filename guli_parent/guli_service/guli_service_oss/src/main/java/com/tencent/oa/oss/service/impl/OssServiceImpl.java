@@ -8,11 +8,13 @@ import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.tencent.oa.oss.service.OssService;
 import com.tencent.oa.oss.utils.ConstantPropertiesUtils;
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayInputStream;
+
 import java.io.InputStream;
+import java.util.UUID;
 
 
 @Service
@@ -28,14 +30,20 @@ public class OssServiceImpl implements OssService {
 
         String uploadUrl = null;
         try {
-            //判断oss实例是否存在：如果不存在则创建，如果存在则获取
+            //创建OSS对象
             OSS ossClient = new OSSClientBuilder().build(endPoint, accessKeyId, accessKeySecret);
 
             //获取上传文件流
             InputStream inputStream = file.getInputStream();
             String fileName = file.getOriginalFilename();
 
-            String content = "Hello OSS";
+            //文件名称添加随机唯一值
+            String uuid = UUID.randomUUID().toString().replaceAll("-","");
+            fileName = uuid + fileName;
+
+            String datePath = new DateTime().toString("yyyy/MM/dd");
+            fileName = datePath +"/"+fileName;
+
             //文件上传至阿里云
             ossClient.putObject(bucketName, fileName, inputStream);
 
@@ -45,11 +53,10 @@ public class OssServiceImpl implements OssService {
         }
             catch (Exception e){
             e.printStackTrace();
-
             }
 
-
         return uploadUrl;
+
 
     }
 }
