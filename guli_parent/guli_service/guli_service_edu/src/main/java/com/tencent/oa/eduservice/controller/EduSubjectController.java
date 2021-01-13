@@ -2,14 +2,15 @@ package com.tencent.oa.eduservice.controller;
 
 
 import com.tencent.oa.commonutils.JsonResult;
+import com.tencent.oa.eduservice.entity.subject.OneSubject;
 import com.tencent.oa.eduservice.service.EduSubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+
 
 /**
  * <p>
@@ -33,6 +34,14 @@ public class EduSubjectController {
         subjectService.saveSubject(file,subjectService);
         return JsonResult.success();
     }
+
+    //课程分类列表(树形结构)
+    @GetMapping("getAllSubject")
+    public JsonResult getAllSubject(){
+        List<OneSubject> list =subjectService.getAllOneTwoSubject();
+        return JsonResult.success().data("list",list);
+    }
+
 
 }
 

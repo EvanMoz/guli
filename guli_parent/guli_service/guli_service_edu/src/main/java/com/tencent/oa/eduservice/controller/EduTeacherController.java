@@ -39,9 +39,9 @@ public class EduTeacherController {
     //查询讲师表所有数据
     @ApiOperation(value = "查询所有讲师")
     @GetMapping("findAll")
-    public List<EduTeacher> findAllTeacher(){
+    public JsonResult findAllTeacher(){
         List<EduTeacher> list = eduTeacherService.list(null);
-        return list;
+        return JsonResult.success().data("teachers",list);
     }
 
     //删除
