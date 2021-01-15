@@ -1,7 +1,10 @@
 package com.tencent.oa.eduservice.service;
 
+import com.tencent.oa.eduservice.chapter.ChapterVo;
 import com.tencent.oa.eduservice.entity.EduChapter;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface EduChapterService extends IService<EduChapter> {
 
+    List<ChapterVo> getChapterVideoByCourseId(String courseId);
 }

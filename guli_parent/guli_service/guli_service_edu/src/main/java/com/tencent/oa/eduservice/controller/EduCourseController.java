@@ -30,5 +30,17 @@ public class EduCourseController {
 
         return JsonResult.success().data("courseId",courseId);
     }
+
+    @GetMapping("getCourseInfo/{courseId}")
+    public JsonResult getCourseInfo(@PathVariable String courseId){
+        CourseInfoVo courseInfoVo = eduCourseService.getCourseInfo(courseId);
+        return JsonResult.success().data("courseInfoVo",courseInfoVo);
+    }
+
+    @PostMapping("updateCourseInfo")
+    public JsonResult updateCourseInfo(@RequestBody CourseInfoVo courseInfoVo){
+        eduCourseService.updateCourseInfo(courseInfoVo);
+        return JsonResult.success();
+    }
 }
 
