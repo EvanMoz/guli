@@ -9,6 +9,7 @@ import com.tencent.oa.eduservice.mapper.EduChapterMapper;
 import com.tencent.oa.eduservice.service.EduChapterService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.tencent.oa.eduservice.service.EduVideoService;
+import com.tencent.oa.servicebase.exception.GuliException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -66,4 +67,16 @@ public class EduChapterServiceImpl extends ServiceImpl<EduChapterMapper, EduChap
 
         return finalChapterList;
     }
+
+    @Override
+    public boolean deleteChapter(String chapterId) {
+        QueryWrapper<EduVideo> videoWrapper = new QueryWrapper<>();
+        videoWrapper.eq("chapter_id",chapterId);
+        if (eduVideoService.count(videoWrapper) > 0){
+            throw new GuliException(20001,"该章节下存在小节,请先删除小节再删除章节");
+        }else{
+            return baseMapper.deleteById(chapterId)>0;
+        }
+    }
+
 }
