@@ -3,6 +3,7 @@ package com.tencent.oa.eduservice.service;
 import com.tencent.oa.eduservice.entity.EduCourse;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.tencent.oa.eduservice.entity.vo.CourseInfoVo;
+import com.tencent.oa.eduservice.entity.vo.CoursePublishVo;
 
 /**
  * <p>
@@ -19,4 +20,8 @@ public interface EduCourseService extends IService<EduCourse> {
     CourseInfoVo getCourseInfo(String courseId);
 
     void updateCourseInfo(CourseInfoVo courseInfoVo);
+
+    CoursePublishVo getPublishCourseInfo(String courseId);
+
+    void deleteCourseById(String courseId);
 }

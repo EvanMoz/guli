@@ -41,5 +41,11 @@ public class EduVideoController {
         eduVideoService.updateById(eduVideo);
         return JsonResult.success();
     }
+
+    @GetMapping("getVideoInfo/{videoId}")
+    public JsonResult getVideoInfo(@PathVariable String videoId){
+        EduVideo eduVideo = eduVideoService.getById(videoId);
+        return JsonResult.success().data("videoInfo",eduVideo);
+    }
 }
 

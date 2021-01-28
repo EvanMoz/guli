@@ -3,10 +3,13 @@ package com.tencent.oa.eduservice.service.impl;
 import com.tencent.oa.eduservice.entity.EduCourse;
 import com.tencent.oa.eduservice.entity.EduCourseDescription;
 import com.tencent.oa.eduservice.entity.vo.CourseInfoVo;
+import com.tencent.oa.eduservice.entity.vo.CoursePublishVo;
 import com.tencent.oa.eduservice.mapper.EduCourseMapper;
+import com.tencent.oa.eduservice.service.EduChapterService;
 import com.tencent.oa.eduservice.service.EduCourseDescriptionService;
 import com.tencent.oa.eduservice.service.EduCourseService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.tencent.oa.eduservice.service.EduVideoService;
 import com.tencent.oa.servicebase.exception.GuliException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +28,12 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
 
     @Autowired
     private EduCourseDescriptionService eduCourseDescriptionService;
+
+    @Autowired
+    private EduVideoService eduVideoService;
+
+    @Autowired
+    private EduChapterService eduChapterService;
 
     @Override
     public String saveCourseInfo(CourseInfoVo courseInfoVo) {
@@ -74,5 +83,20 @@ public class EduCourseServiceImpl extends ServiceImpl<EduCourseMapper, EduCourse
         courseDescription.setId(courseInfoVo.getId());
         courseDescription.setDescription(courseInfoVo.getDescription());
         eduCourseDescriptionService.updateById(courseDescription);
+    }
+
+    @Override
+    public CoursePublishVo getPublishCourseInfo(String courseId) {
+        CoursePublishVo coursePublishVo = baseMapper.getPublishCourseInfo(courseId);
+        return coursePublishVo;
+    }
+
+    @Override
+    public void deleteCourseById(String courseId) {
+        eduVideoService.deleteVideoByCourseId(courseId);
+        eduChapterService.deleteChapterByCourseId(courseId);
+        eduCourseDescriptionService.removeById(courseId);
+        int deleteNum = baseMapper.deleteById(courseId);
+
     }
 }
