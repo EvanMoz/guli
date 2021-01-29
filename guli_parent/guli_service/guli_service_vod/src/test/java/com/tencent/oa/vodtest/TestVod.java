@@ -13,7 +13,7 @@ public class TestVod {
 }
 
     public static void getPlayURL() throws ClientException{
-        DefaultAcsClient client = InitObject.initVodClient("LTAI4G6yPAboPisFC74ZAzgM", "QKOgdsIsmJRRqY8Q4LByhi0UDwa70L");
+        DefaultAcsClient client = InitObject.initVodClient("", "");
 
         GetPlayInfoRequest request = new GetPlayInfoRequest();
         GetPlayInfoResponse response = new GetPlayInfoResponse();
