@@ -18,13 +18,11 @@ public class VodServiceImpl implements VodService {
     public String uploadVideo(MultipartFile file) {
 
         try {
-            String accessKeyId = ConstantVodUtils.ACCESS_KEY_ID;
-            String accessKeySecret = ConstantVodUtils.ACCESS_KEY_SECRET;
-            String title = "";
-            String fileName = file.getOriginalFilename();
-            InputStream inputStream = file.getInputStream();
 
-            UploadStreamRequest request = new UploadStreamRequest(accessKeyId, accessKeySecret, title, fileName, inputStream);
+            String fileName = file.getOriginalFilename();
+            String title = fileName.substring(0,fileName.lastIndexOf("."));
+            InputStream inputStream = file.getInputStream();
+            UploadStreamRequest request = new UploadStreamRequest(ConstantVodUtils.ACCESS_KEY_ID, ConstantVodUtils.ACCESS_KEY_SECRET, title, fileName, inputStream);
 
             UploadVideoImpl uploader = new UploadVideoImpl();
             UploadStreamResponse response = uploader.uploadStream(request);
@@ -35,13 +33,14 @@ public class VodServiceImpl implements VodService {
                 videoId = response.getVideoId();
             } else { //如果设置回调URL无效，不影响视频上传，可以返回VideoId同时会返回错误码。其他情况上传失败时，VideoId为空，此时需要根据返回错误码分析具体错误原因
                 videoId = response.getVideoId();
+                System.out.print("ErrorCode=" + response.getCode() + "\n");
+                System.out.print("ErrorMessage=" + response.getMessage() + "\n");
             }
             return videoId;
-        } catch (Exception e)
-        {
-
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
 
-        return "";
     }
 }

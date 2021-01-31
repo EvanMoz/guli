@@ -2,9 +2,9 @@ package com.tencent.oa.vod.utils;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Component;
 
-@ComponentScan
+@Component
 public class ConstantVodUtils implements InitializingBean {
 
     @Value("${aliyun.vod.file.keyid}")

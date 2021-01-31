@@ -47,9 +47,9 @@ public class EduTeacherController {
     //删除
     @ApiOperation(value = "根据ID逻辑删除讲师")
     @DeleteMapping("/delete/{id}")
-    public boolean deleteTeacherById(@ApiParam(name = "id",value = "讲师ID",required = true) @PathVariable String id){
+    public JsonResult deleteTeacherById(@ApiParam(name = "id",value = "讲师ID",required = true) @PathVariable String id){
         boolean flag = eduTeacherService.removeById(id);
-        return flag;
+        return JsonResult.success().flag(flag);
     }
 
     @ApiOperation(value = "分页查询所有讲师")
