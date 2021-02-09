@@ -2,9 +2,11 @@ package com.tencent.oa.eduservice.controller;
 
 
 import com.tencent.oa.commonutils.JsonResult;
+import com.tencent.oa.eduservice.client.VodClient;
 import com.tencent.oa.eduservice.entity.EduVideo;
 import com.tencent.oa.eduservice.service.EduVideoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -23,15 +25,24 @@ public class EduVideoController {
     @Autowired
     private EduVideoService eduVideoService;
 
+    @Autowired
+    private VodClient vodClient;
+
     @PostMapping("addVideo")
     public JsonResult addVideo(@RequestBody EduVideo eduVideo){
         eduVideoService.save(eduVideo);
         return JsonResult.success();
     }
 
-    //TODO 删除小节的时候同时把视频删除
+    //删除小节的时候同时把视频删除
     @DeleteMapping("delete/{videoId}")
     public JsonResult deleteVideo(@PathVariable String videoId){
+        //根据小节Id得到视频Id
+        EduVideo eduVideo = eduVideoService.getById(videoId);
+        String videoSourceId = eduVideo.getVideoSourceId();
+        if (!StringUtils.isEmpty(videoSourceId)){
+            vodClient.deleteVideoById(videoSourceId);
+        }
         eduVideoService.removeById(videoId);
         return JsonResult.success();
     }

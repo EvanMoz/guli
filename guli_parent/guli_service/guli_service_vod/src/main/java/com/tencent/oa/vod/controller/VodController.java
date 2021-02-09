@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/edu/vod")
 @CrossOrigin
@@ -39,5 +41,11 @@ public class VodController {
             throw new GuliException(20001,"删除视频失败");
         }
 
+    }
+
+    @DeleteMapping("delete-batch")
+    public JsonResult deleteBatch(@RequestParam("videoIdList") List<String> videoIdList){
+        vodService.removeMultiVideo(videoIdList);
+        return JsonResult.success();
     }
 }

@@ -3,12 +3,18 @@ package com.tencent.oa.vod.service.impl;
 import com.aliyun.vod.upload.impl.UploadVideoImpl;
 import com.aliyun.vod.upload.req.UploadStreamRequest;
 import com.aliyun.vod.upload.resp.UploadStreamResponse;
+import com.aliyuncs.DefaultAcsClient;
+import com.aliyuncs.vod.model.v20170321.DeleteVideoRequest;
+import com.tencent.oa.servicebase.exception.GuliException;
 import com.tencent.oa.vod.service.VodService;
 import com.tencent.oa.vod.utils.ConstantVodUtils;
+import com.tencent.oa.vod.utils.InitVodClient;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
+import java.util.List;
 
 @Service
 public class VodServiceImpl implements VodService {
@@ -42,5 +48,20 @@ public class VodServiceImpl implements VodService {
             return null;
         }
 
+    }
+
+    @Override
+    public void removeMultiVideo(List videoIdList) {
+        try {
+            DefaultAcsClient client = InitVodClient.initVodClient(ConstantVodUtils.ACCESS_KEY_ID, ConstantVodUtils.ACCESS_KEY_SECRET);
+            DeleteVideoRequest request = new DeleteVideoRequest();
+            String videoId = StringUtils.join(videoIdList.toArray(), ",");
+            request.setVideoIds(videoId);
+            client.getAcsResponse(request);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new GuliException(20001,"删除视频失败");
+        }
     }
 }
