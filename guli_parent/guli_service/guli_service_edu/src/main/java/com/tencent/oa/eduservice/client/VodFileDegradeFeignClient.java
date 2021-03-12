@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@FeignClient(name = "service-vod",fallback = VodFileDegradeFeignClient.class)
+
 @Component
 public class VodFileDegradeFeignClient implements VodClient{
 

@@ -15,6 +15,7 @@
         <module>guli_service_edu</module>
         <module>guli_service_oss</module>
         <module>guli_service_vod</module>
+        <module>guli_service_cms</module>
     </modules>
 
     <dependencies>
